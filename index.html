@@ -226,32 +226,25 @@
 </head>
 <body>
 
-    <!-- Giriş Butonu -->
     <button id="start-btn">GİRİŞ YAP</button>
 
-    <!-- Arka Plan Videosu -->
     <div class="video-container">
-        <!-- video.mp4 dosyanız html ile aynı dizinde olmalı -->
         <video id="bg-video" loop muted playsinline>
             <source src="video.mp4" type="video/mp4">
         </video>
     </div>
 
-    <!-- Atmosfer Filtresi -->
     <div class="overlay"></div>
 
-    <!-- Yazı Katmanı -->
     <div class="content-layer">
-        <!-- İlk 14 Saniye Görünecek Premium Giriş Yazısı -->
         <div id="init-text" class="normal-text" style="display: none;">Her şey yolunda...</div>
         
-        <!-- 14. Saniyeden Sonra Devreye Girecek Glitchli Merkez Yazı -->
         <div id="glitch-box" class="glitch-container">
             <h1 class="glitch-text" data-text="SENİ SEVİYORUM">SENİ SEVİYORUM</h1>
         </div>
     </div>
 
-    <script>
+    <script {nonce}>
         const startBtn = document.getElementById('start-btn');
         const video = document.getElementById('bg-video');
         const initText = document.getElementById('init-text');
@@ -259,9 +252,13 @@
         const contentLayer = document.querySelector('.content-layer');
 
         startBtn.addEventListener('click', () => {
-            // Butonu kaldır ve sistemleri başlat
+            // Butonu kaldır
             startBtn.style.display = 'none';
+            
+            // Sesi JavaScript ile açıyoruz (Muted özelliğini kapatıyoruz)
+            video.muted = false;
             video.play();
+            
             initText.style.display = 'block';
 
             // 14 SANİYE ZAMANLAYICISI (14000 Milisaniye)
@@ -288,19 +285,19 @@
             textElement.innerText = "SENİ SEVİYORUM";
             
             // Rastgele koordinatlar
-            const posX = Math.floor(Math.random() * 80) + 5; // %5 ile %85 arası (taşmasın diye)
+            const posX = Math.floor(Math.random() * 80) + 5; 
             const posY = Math.floor(Math.random() * 80) + 5;
             
             textElement.style.left = `${posX}%`;
             textElement.style.top = `${posY}%`;
             
-            // Rastgele font boyutları (Dreamcore havası için)
+            // Rastgele font boyutları
             const randomSize = (Math.random() * 1.5 + 0.8).toFixed(1);
             textElement.style.fontSize = `${randomSize}rem`;
 
             contentLayer.appendChild(textElement);
 
-            // Ekranı çöpe boğmamak için 3 saniye sonra eskiyenleri temizle
+            // 3 saniye sonra eskiyenleri temizle
             setTimeout(() => {
                 textElement.remove();
             }, 3000);
