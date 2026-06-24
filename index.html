@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&lt;3</title>
+    <style>
+        /* CSS RESET & TEMEL STİLLER */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        /* PREMIUM ARKA PLAN VİDEOSU */
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: filter 2s ease, opacity 2s ease;
+        }
+
+        /* 14. Saniyeden Sonra Videoya Gelecek Dreamcore Filtresi */
+        .video-corrupted {
+            filter: contrast(150%) hue-rotate(90deg) saturate(200%) blur(1px);
+            opacity: 0.5 !important;
+        }
+
+        /* OVERLAY (SİTENİN KARARMASI VE ATMOSFERİ) */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* İÇERİK KATMANI (YAZILAR VİDEONUN ÜSTÜNDE OLACAK) */
+        .content-layer {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        /* İLK 14 SANİYE NORMAL GÖRÜNECEK PREMIUM YAZI */
+        .normal-text {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            animation: fadeInOut 4s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: opacity 1s ease;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* GLITCH YAZI ALANI (14. SANİYEDE AKTİF OLACAK) */
+        .glitch-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: none; /* İlk başta gizli */
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ANA GLITCH YAZI STİLİ */
+        .glitch-text {
+            position: relative;
+            font-size: 4rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #fff;
+            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                         -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+                         0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            animation: glitch 500ms infinite;
+        }
+
+        /* Glitch Katmanları (Efektin Derinliği İçin) */
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .glitch-text::before {
+            animation: glitchTop 1s linear infinite invert;
+            clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+            -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+            opacity: 0.8;
+        }
+
+        .glitch-text::after {
+            animation: glitchBot 1.5s linear infinite;
+            clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+            -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+            opacity: 0.8;
+        }
+
+        /* KEYFRAMES ANIMATIONS */
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.05em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            }
+            14% {
+                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.05em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            }
+            15% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            49% {
+                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            50% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            99% {
+                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+            100% {
+                text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 255, 0, 0.75);
+            }
+        }
+
+        @keyframes glitchTop {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitchBot {
+            0% { transform: translate(0); }
+            20% { transform: translate(5px, -5px); }
+            40% { transform: translate(5px, 5px); }
+            60% { transform: translate(-5px, -5px); }
+            80% { transform: translate(-5px, 5px); }
+            100% { transform: translate(0); }
+        }
+
+        /* EKRANDA RASTGELE BELİREN KÜÇÜK "SENİ SEVİYORUM" SÜSLEMELERİ */
+        .scattered-glitch {
+            position: absolute;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-family: monospace;
+            pointer-events: none;
+            text-transform: uppercase;
+            animation: miniGlitch 1s infinite;
+        }
+
+        @keyframes miniGlitch {
+            0%, 100% { transform: translate(0); skew(0deg); opacity: 0.4; }
+            20% { transform: translate(-2px, 2px); skew(10deg); color: #ff0055; opacity: 0.8; }
+            40% { transform: translate(2px, -2px); skew(-10deg); color: #00ffaa; }
+            60% { transform: text-shadow: 1px 1px 0px #f0f; }
+        }
+
+        /* KULLANICI ETKİLEŞİM BUTONU (Tarayıcıların ses/video engeline takılmamak için şart) */
+        #start-btn {
+            position: absolute;
+            z-index: 999;
+            padding: 15px 30px;
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: all 0.5s ease;
+            font-family: inherit;
+        }
+
+        #start-btn:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 15px #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Giriş Butonu -->
+    <button id="start-btn">GİRİŞ YAP</button>
+
+    <!-- Arka Plan Videosu -->
+    <div class="video-container">
+        <!-- video.mp4 dosyanız html ile aynı dizinde olmalı -->
+        <video id="bg-video" loop muted playsinline>
+            <source src="video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Atmosfer Filtresi -->
+    <div class="overlay"></div>
+
+    <!-- Yazı Katmanı -->
+    <div class="content-layer">
+        <!-- İlk 14 Saniye Görünecek Premium Giriş Yazısı -->
+        <div id="init-text" class="normal-text" style="display: none;">Her şey yolunda...</div>
+        
+        <!-- 14. Saniyeden Sonra Devreye Girecek Glitchli Merkez Yazı -->
+        <div id="glitch-box" class="glitch-container">
+            <h1 class="glitch-text" data-text="SENİ SEVİYORUM">SENİ SEVİYORUM</h1>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('start-btn');
+        const video = document.getElementById('bg-video');
+        const initText = document.getElementById('init-text');
+        const glitchBox = document.getElementById('glitch-box');
+        const contentLayer = document.querySelector('.content-layer');
+
+        startBtn.addEventListener('click', () => {
+            // Butonu kaldır ve sistemleri başlat
+            startBtn.style.display = 'none';
+            video.play();
+            initText.style.display = 'block';
+
+            // 14 SANİYE ZAMANLAYICISI (14000 Milisaniye)
+            setTimeout(() => {
+                // 1. İlk yazıyı gizle
+                initText.style.display = 'none';
+
+                // 2. Ana glitch yazısını getir
+                glitchBox.style.display = 'flex';
+
+                // 3. Videoya Dreamcore bozulma filtresini ekle
+                video.classList.add('video-corrupted');
+
+                // 4. Arka planda sürekli rastgele yerlerde glitchli "seni seviyorum" yazıları türet
+                setInterval(createScatteredText, 400);
+
+            }, 14000);
+        });
+
+        // Ekrana Rastgele Glitch Yazıları Serpiştiren Fonksiyon
+        function createScatteredText() {
+            const textElement = document.createElement('div');
+            textElement.classList.add('scattered-glitch');
+            textElement.innerText = "SENİ SEVİYORUM";
+            
+            // Rastgele koordinatlar
+            const posX = Math.floor(Math.random() * 80) + 5; // %5 ile %85 arası (taşmasın diye)
+            const posY = Math.floor(Math.random() * 80) + 5;
+            
+            textElement.style.left = `${posX}%`;
+            textElement.style.top = `${posY}%`;
+            
+            // Rastgele font boyutları (Dreamcore havası için)
+            const randomSize = (Math.random() * 1.5 + 0.8).toFixed(1);
+            textElement.style.fontSize = `${randomSize}rem`;
+
+            contentLayer.appendChild(textElement);
+
+            // Ekranı çöpe boğmamak için 3 saniye sonra eskiyenleri temizle
+            setTimeout(() => {
+                textElement.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+
