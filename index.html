@@ -40,13 +40,6 @@
             height: 100%;
             object-fit: cover;
             opacity: 0.8;
-            transition: filter 2s ease, opacity 2s ease;
-        }
-
-        /* 14. Saniyeden Sonra Videoya Gelecek Dreamcore Filtresi */
-        .video-corrupted {
-            filter: contrast(150%) hue-rotate(90deg) saturate(200%) blur(1px);
-            opacity: 0.5 !important;
         }
 
         /* OVERLAY (SİTENİN KARARMASI VE ATMOSFERİ) */
@@ -65,143 +58,36 @@
         .content-layer {
             position: relative;
             z-index: 3;
-            text-align: center;
             width: 100%;
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             pointer-events: none;
         }
 
-        /* İLK 14 SANİYE NORMAL GÖRÜNECEK PREMIUM YAZI */
-        .normal-text {
-            font-size: 2.5rem;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            animation: fadeInOut 4s ease-in-out infinite;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            transition: opacity 1s ease;
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        /* GLITCH YAZI ALANI (14. SANİYEDE AKTİF OLACAK) */
-        .glitch-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: none; /* İlk başta gizli */
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* ANA GLITCH YAZI STİLİ */
-        .glitch-text {
-            position: relative;
-            font-size: 4rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #fff;
-            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
-                         -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
-                         0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-            animation: glitch 500ms infinite;
-        }
-
-        /* Glitch Katmanları (Efektin Derinliği İçin) */
-        .glitch-text::before,
-        .glitch-text::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-        }
-
-        .glitch-text::before {
-            animation: glitchTop 1s linear infinite invert;
-            clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
-            -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
-            opacity: 0.8;
-        }
-
-        .glitch-text::after {
-            animation: glitchBot 1.5s linear infinite;
-            clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
-            -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
-            opacity: 0.8;
-        }
-
-        /* KEYFRAMES ANIMATIONS */
-        @keyframes glitch {
-            0% {
-                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.05em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-            }
-            14% {
-                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.05em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-            }
-            15% {
-                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 255, 0, 0.75);
-            }
-            49% {
-                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 255, 0, 0.75);
-            }
-            50% {
-                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 255, 0, 0.75);
-            }
-            99% {
-                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 255, 0, 0.75);
-            }
-            100% {
-                text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 255, 0, 0.75);
-            }
-        }
-
-        @keyframes glitchTop {
-            0% { transform: translate(0); }
-            20% { transform: translate(-5px, 5px); }
-            40% { transform: translate(-5px, -5px); }
-            60% { transform: translate(5px, 5px); }
-            80% { transform: translate(5px, -5px); }
-            100% { transform: translate(0); }
-        }
-
-        @keyframes glitchBot {
-            0% { transform: translate(0); }
-            20% { transform: translate(5px, -5px); }
-            40% { transform: translate(5px, 5px); }
-            60% { transform: translate(-5px, -5px); }
-            80% { transform: translate(-5px, 5px); }
-            100% { transform: translate(0); }
-        }
-
-        /* EKRANDA RASTGELE BELİREN KÜÇÜK "SENİ SEVİYORUM" SÜSLEMELERİ */
+        /* EKRANDA RASTGELE BELİREN SERT GLITCHLİ "SENİ SEVİYORUM" YAZILARI */
         .scattered-glitch {
             position: absolute;
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.3);
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
             font-family: monospace;
             pointer-events: none;
             text-transform: uppercase;
-            animation: miniGlitch 1s infinite;
+            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
+                         -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
+                         0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            animation: hardGlitch 400ms infinite;
         }
 
-        @keyframes miniGlitch {
-            0%, 100% { transform: translate(0); skew(0deg); opacity: 0.4; }
-            20% { transform: translate(-2px, 2px); skew(10deg); color: #ff0055; opacity: 0.8; }
-            40% { transform: translate(2px, -2px); skew(-10deg); color: #00ffaa; }
-            60% { transform: text-shadow: 1px 1px 0px #f0f; }
+        @keyframes hardGlitch {
+            0%, 100% { transform: translate(0) skew(0deg); opacity: 0.9; }
+            10% { transform: translate(-4px, 3px) skew(-15deg); color: #ff0055; text-shadow: 3px 0px 0px #0ff; }
+            30% { transform: translate(4px, -3px) skew(20deg); color: #00ffaa; text-shadow: -3px -3px 0px #f0f; }
+            50% { transform: translate(-2px, -2px) skew(-5deg); opacity: 0.5; }
+            70% { transform: translate(5px, 5px) skew(10deg); color: #0000ff; }
+            90% { transform: translate(-5px, -5px) skew(-25deg); color: #ffff00; }
         }
 
-        /* KULLANICI ETKİLEŞİM BUTONU (Tarayıcıların ses/video engeline takılmamak için şart) */
+        /* KULLANICI ETKİLEŞİM BUTONU */
         #start-btn {
             position: absolute;
             z-index: 999;
@@ -229,79 +115,64 @@
     <button id="start-btn">GİRİŞ YAP</button>
 
     <div class="video-container">
-        <video id="bg-video" loop muted playsinline>
+        <video id="bg-video" muted playsinline>
             <source src="video.mp4" type="video/mp4">
         </video>
     </div>
 
     <div class="overlay"></div>
 
-    <div class="content-layer">
-        <div id="init-text" class="normal-text" style="display: none;">Her şey yolunda...</div>
-        
-        <div id="glitch-box" class="glitch-container">
-            <h1 class="glitch-text" data-text="SENİ SEVİYORUM">SENİ SEVİYORUM</h1>
-        </div>
-    </div>
+    <div class="content-layer"></div>
 
-    <script {nonce}>
+    <script>
         const startBtn = document.getElementById('start-btn');
         const video = document.getElementById('bg-video');
-        const initText = document.getElementById('init-text');
-        const glitchBox = document.getElementById('glitch-box');
         const contentLayer = document.querySelector('.content-layer');
 
         startBtn.addEventListener('click', () => {
-            // Butonu kaldır
             startBtn.style.display = 'none';
             
-            // Sesi JavaScript ile açıyoruz (Muted özelliğini kapatıyoruz)
             video.muted = false;
             video.play();
             
-            initText.style.display = 'block';
-
-            // 14 SANİYE ZAMANLAYICISI (14000 Milisaniye)
+            // 14.5 SANİYE ZAMANLAYICISI (14500 Milisaniye)
             setTimeout(() => {
-                // 1. İlk yazıyı gizle
-                initText.style.display = 'none';
-
-                // 2. Ana glitch yazısını getir
-                glitchBox.style.display = 'flex';
-
-                // 3. Videoya Dreamcore bozulma filtresini ekle
-                video.classList.add('video-corrupted');
-
-                // 4. Arka planda sürekli rastgele yerlerde glitchli "seni seviyorum" yazıları türet
-                setInterval(createScatteredText, 400);
-
-            }, 14000);
+                // Arka planda sert ve hızlı şekilde rastgele glitch yazıları türetmeye başla
+                setInterval(createScatteredText, 250); // Hızlandırıldı (250ms), daha sert bir efekt için
+            }, 14500);
         });
 
-        // Ekrana Rastgele Glitch Yazıları Serpiştiren Fonksiyon
+        // Ekrana Rastgele Sert Glitch Yazıları Serpiştiren Fonksiyon
         function createScatteredText() {
             const textElement = document.createElement('div');
             textElement.classList.add('scattered-glitch');
             textElement.innerText = "SENİ SEVİYORUM";
             
             // Rastgele koordinatlar
-            const posX = Math.floor(Math.random() * 80) + 5; 
-            const posY = Math.floor(Math.random() * 80) + 5;
+            const posX = Math.floor(Math.random() * 75) + 5; 
+            const posY = Math.floor(Math.random() * 75) + 5;
             
             textElement.style.left = `${posX}%`;
             textElement.style.top = `${posY}%`;
             
-            // Rastgele font boyutları
-            const randomSize = (Math.random() * 1.5 + 0.8).toFixed(1);
+            // Sert ve karmaşık görünüm için farklı boyutlar
+            const randomSize = (Math.random() * 2.5 + 1.2).toFixed(1);
             textElement.style.fontSize = `${randomSize}rem`;
 
             contentLayer.appendChild(textElement);
 
-            // 3 saniye sonra eskiyenleri temizle
+            // Ekranı çok doldurmadan hızlıca eskiyenleri imha et (Sertlik hissi verir)
             setTimeout(() => {
                 textElement.remove();
-            }, 3000);
+            }, 1200);
         }
+
+        // VİDEO BİTİNCE SİTEDEN ATMA MEKANİZMASI
+        video.addEventListener('ended', () => {
+            // Önce sekmeyi kapatmayı dener, tarayıcı izin vermezse boş sayfaya yönlendirir
+            window.close();
+            window.location.href = "about:blank";
+        });
     </script>
 </body>
 </html>
